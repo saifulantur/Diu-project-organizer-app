@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+{% block profile %}{% endblock %}
+{% block content%} 
+        
+        <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Thesis List</h5>
+                    </div>
+                    <div class="card-body">
+                        <table id="datatables-buttons" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th style="width:12%">Thesis No</th>
+                                    <th>Title</th>
+                                    <th>Supervisor</th>
+                                    <th>Department</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                    {% for i in t_data %}
+                                <tr>
+                                    <td>{{i.thesis_no}}</td>
+                                    <td>{{i.name}}</td>
+                                    <td>{{i.supervisor}}</td>
+                                    <td>{{i.department}}</td>
+                                    <td class="table-action">
+                                            <a href=""><i class="align-right" data-feather="eye"></i></a>
+                                     </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        
+{% endblock %}
+{% block script%} 
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+    // Datatables basic
+    $('#datatables-basic').DataTable({
+        responsive: true
+    });
+    // Datatables with Buttons
+    var datatablesButtons = $('#datatables-buttons').DataTable({
+        lengthChange: !1,
+        buttons: ["copy", "print"],
+        responsive: true
+    });
+    datatablesButtons.buttons().container().appendTo("#datatables-buttons_wrapper .col-md-6:eq(0)")
+});
+</script>
+
+{% endblock %}

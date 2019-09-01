@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+{% block profile %}{% endblock %}
+{% block content%}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">All Internship Record</h5>
+            </div>
+            <div class="card-body">
+                <table id="datatables-basic" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="width:25%">Internship No</th>
+                            <th>Industry Name</th>
+                            <th>Supervisor</th>
+                            <th style="width:30%">Department</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in i_data %}
+                        <tr>
+                            <td>{{i.internship_no}}</td>
+                            <td>{{i.industry_name}}</td>
+                            <td>{{i.supervisor}}</td>
+                            <td>{{i.department}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th style="width:12%">Internship No</th>
+                            <th>Industry Name</th>
+                            <th style="width:15%">Supervisor</th>
+                            <th>Department</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}
+
+    {% block script%}
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            // Datatables basic
+            $('#datatables-basic').DataTable({
+                responsive: true
+            });
+            // Datatables with Buttons
+            var datatablesButtons = $('#datatables-buttons').DataTable({
+                lengthChange: !1,
+                buttons: ["copy", "print",],
+                responsive: true
+            });
+            datatablesButtons.buttons().container().appendTo("#datatables-buttons_wrapper .col-md-6:eq(0)")
+        });
+    </script>
+
+    {% endblock %}

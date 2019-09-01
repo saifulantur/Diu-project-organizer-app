@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}DIU | Project Organizer{% endblock %}
+{% block script%}
+{% endblock %}
+{% block content%}
+        <div class="row">
+            {% for i in f_data %}
+                <div class="col-12 col-xl-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">{{i.faculty_name}}</h5>
+                            </div>
+                            <table class="table table-striped table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Department Name</th>
+                                        <th class="text-left">Project</th>
+                                        <th class="text-left">Thesis</th>
+                                        <th class="text-left">Internship</th>
+                                    </tr>
+                                </thead>
+                                
+                                        
+                                            <tbody>
+                                                    {% for j in d_data %}
+                                                {% if j.facultyName.id == i.id %}
+                                                <tr>
+                                                    <td>{{j.department_name}}</td>
+                                                    <td class="table-action" >
+                                                         <a href="{% url 'queryproject' id=j.id %}"><i style="margin-left:10px" data-feather="external-link"></i></a>
+                                                    </td>
+                                                    <td class="table-action">
+                                                        <a href="{% url 'querythesis' id=j.id %}"><i style="margin-left:10px" data-feather="external-link"></i></a>
+                                                   </td>
+                                                   <td class="table-action">
+            
+                                                    <a href="{% url 'queryinternshiplist' id=j.id %}"><i style="margin-left:10px" data-feather="external-link"></i></a>
+                                               </td>
+                                                </tr>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                       
+                                
+                            </table>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}DIU Project Organizer{% endblock %}
+{% block departmentName %}
+	
+{% endblock %}
+{% block content%}
+<div class="row">
+    <div class="col-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Project Category</h5>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:50%;">Category Name</th>
+                        <th style="width:40%">Total Project</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+               
+                <tbody>
+                        {% for i in p_data %}
+                    <tr>
+                        <td>{{i.category_project}}</td>
+                        <td>864-348-0485</td>
+                        <td class="table-action">
+                            <a href="{% url 'queryprojectlist' id=i.id %}"><i style="margin-left:10px" class="align-middle" data-feather="external-link"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

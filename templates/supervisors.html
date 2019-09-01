@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+{% block stylesheet %}{% endblock %}
+{% block profile %}{% endblock %}
+{% block content%} 
+
+<div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Supervisors List</h5>
+                    <h6 class="card-subtitle text-muted">Highly flexible tool that many advanced features to any HTML table.</h6>
+                </div>
+                <div class="card-body">
+                    <table id="datatables-basic" class="table table-striped" style="width:100%">
+                        <thead>
+                                <th>Name</th>
+                                <th>Initial</th>
+                                <th>Email</th>
+                                <th>Department Name</th>
+                                <th>Details</th>
+                        </thead>
+                        <tbody>
+                            {% for i in s_data %}
+                                <tr>
+                                    <td>
+                                        <img src="{{ i.image.url }}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> {{ i.name }}
+                                    </td>
+                                    <td>{{i.initial}}</td>
+                                    <td>{{i.email}}</td>
+                                    <td>{{i.department}}</td>
+                                    <td class="table-action">
+                                            <a href="{{i.details}} " target="_blank"><i style="margin-left:10px" class="align-middle" data-feather="external-link"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block script%} 
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+    // Datatables basic
+    $('#datatables-basic').DataTable({
+        responsive: true
+    });
+    // Datatables with Buttons
+    var datatablesButtons = $('#datatables-buttons').DataTable({
+        lengthChange: !1,
+        buttons: ["copy", "print",],
+        responsive: true
+    });
+    datatablesButtons.buttons().container().appendTo("#datatables-buttons_wrapper .col-md-6:eq(0)")
+});
+</script>
+
+{% endblock %}
+

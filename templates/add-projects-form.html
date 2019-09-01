@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+{% block stylesheet %}
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block profile %}{% endblock %}
+{% block content%}
+
+<main class="content">
+    <div class="container-fluid p-0">
+        <!-------------------------------------------------->
+        <div class="clearfix">
+            <form class="form-inline float-right mt--1 d-none d-md-flex">
+                <button id="btnAddNewTeacher" class="btn btn-primary"><i data-feather="plus"></i>&nbsp;Add
+                    Project</button>
+            </form>
+            <h1 class="h3 mb-3">Project Information</h1>
+        </div>
+        <!-------------------------------------------------->
+        <div class="row">
+            <div id="create-new-teacherForm" class="col-12">
+                <!--  col-md-6 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Add Projects Form</h5>
+                        <h6 class="card-subtitle text-muted">This table is for all Project information</h6>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/add-projects" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <fieldset>
+                                <!-- success-Message -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="projectNo">Project No :</label>
+                                        <input id="projectNo" name="projectNo" placeholder="Enter Project No "
+                                            class="form-control input-md" type="text" required>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="projectTitle">Project Title :</label>
+                                        <input id="projectTitle" name="projectTitle" placeholder="Enter Project Title"
+                                            class="form-control input-md" type="text" required>
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <div class="form-group purple-border">
+                                            <label for="projectDetails">Project Details :</label>
+                                            <textarea class="form-control" id="projectDetails" name="projectDetails"
+                                                placeholder="Enter Project Details" rows="5"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="uploadProjectFile">Upload</span>
+                                            </div>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="projectFile"
+                                                    aria-describedby="uploadProjectFile" name="projectFile" required>
+                                                <label class="custom-file-label" for="projectFile"
+                                                    id="projectFileLabel">Choose Project
+                                                    File</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="uploadProjectReport">Upload</span>
+                                            </div>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="projectReport"
+                                                    name="projectReport" aria-describedby="uploadProjectReport"
+                                                    required>
+                                                <label class="custom-file-label" for="projectReport"
+                                                    id="projectReportLabel">Choose Project
+                                                    Report</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <div class="form-group purple-border">
+                                            <label for="faculty">Faculty :</label>
+                                            <select class="form-control" id="facultyCombobox" name="facultyCombobox">
+                                                <option value="" selected="selected">---------</option>
+                                                {% for item in f_data %}
+                                                <option value="{{item.id}}">{{item.faculty_name}}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <div class="form-group purple-border">
+                                            <label for="department">Department :</label>
+                                            <select class="form-control" id="departmentCombobox"
+                                                name="departmentCombobox">
+                                                <option value="" selected="selected">---------</option>
+                                                {% for j in d_data %}
+                                                <option value="{{j.id}}" class="{{j.facultyName_id}}">
+                                                    {{j.department_name}}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <div class="form-group purple-border">
+                                            <label for="supervisor">Supervisor :</label>
+                                            <select class="form-control" id="supervisorCombobox"
+                                                name="supervisorCombobox">
+                                                <option value="" selected="selected">---------</option>
+                                                {% for supervisor in s_data %}
+                                                <option value="{{supervisor.id}}" class="{{supervisor.department_id}}">
+                                                    {{supervisor.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group col-md-6">
+                                        <div class="form-group purple-border">
+                                            <label for="projectCategory">Project Category :</label>
+                                            <select class="form-control" id="projectCategoryCombobox"
+                                                name="projectCategoryCombobox">
+                                                <option value="" selected="selected">---------</option>
+                                                {% for p in pCategory_data %}
+                                                <option value="{{p.id}}" class="{{p.department_id}}">
+                                                    {{p.category_project}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="date">Submission Date :</label>
+                                        <input id="date" name="date" placeholder="Submission date"
+                                            class="form-control input-md" type="text" required>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <button id="btnSaveProject" name="btnSaveProject" class="btn btn-primary"
+                                                type="submit">Save</button>
+                                            <button id="btnSaveReset" name="btnSaveReset" class="btn btn-warning"
+                                                type="reset" value="reset">Reset</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- //// -->
+        <div class="row">
+            <div id="existingProjectInformation" class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Existing Project Information</h5>
+                        <h6 class="card-subtitle text-muted">This table is for all project information</h6>
+                    </div>
+                    <div class="card-body">
+                        <div id="divProjectInformation"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{% endblock %}
+{% block script%}
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+
+        //Combobox data mapping
+        $("#departmentCombobox").chained("#facultyCombobox");
+        $("#supervisorCombobox").chained("#departmentCombobox");
+        $("#projectCategoryCombobox").chained("#departmentCombobox");
+
+        //For Project file name
+        $('#projectFile').change(function (e) {
+            var fileName = e.target.files[0].name;
+            document.getElementById("projectFileLabel").innerHTML = fileName;
+        });
+
+        //For Project Report File name
+        $('#projectReport').change(function (e) {
+            var fileName = e.target.files[0].name;
+            document.getElementById("projectReportLabel").innerHTML = fileName;
+        });
+
+        //date
+        $('#date').datepicker({ format: 'yyyy-mm-dd' });
+    });
+</script>
+{% endblock %}
