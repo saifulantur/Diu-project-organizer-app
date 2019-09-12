@@ -5,15 +5,45 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="Responsive Bootstrap 4 Admin Template">
+	<meta name="description" content="Project Organizer App Templete">
 	<meta name="author" content="Bootlab">
 	{% load static %}
 	<title>{% block title %}{% endblock %}</title>
 	<link rel="icon" type="image/png" href="{% static 'img/diu.png' %}">
-
+	<!-- <script src="{{ form.media.js }}"></script> -->
 
 	<link href="{% static 'css/app.css' %}" rel="stylesheet">
-	{% block stylesheet %}{% endblock %}
+	{% block stylesheet %}
+	{% endblock %}
+	<!-- {% static 'img/daffodil.png' %} -->
+	<style>
+		.sec1 {
+			position: relative;
+			width: 100%;
+			height: 60vh;
+			overflow: hidden;
+
+			background: linear-gradient(rgb(0, 0, 0, 0.7), rgb(0, 0, 0, 0.5)), url("static/img/daffodil5.jfif");
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center bottom;
+			/* background-attachment: fixed; */
+
+		}
+
+		.skewed1 {
+			position: absolute;
+			bottom: 0px;
+			left: 0;
+			/*    background-color:yellow;*/
+			border-width: 0px 0 80px 1400px;
+			/* border-width: 50px 0 0 1400px; */
+			/*top right bottom left*/
+			border-style: solid;
+			/* border-color: transparent transparent transparent #F0F0F0; */
+			border-color: transparent transparent #F0F0F0 transparent;
+		}
+	</style>
 
 </head>
 
@@ -21,6 +51,7 @@
 	<div class="wrapper">
 		<div class="d-flex">
 			<nav class="sidebar sidebar-sticky">
+
 				<div class="sidebar-content">
 					<a class="sidebar-brand" href="{% url 'index' %}">
 						<i class="align-middle"> <img src="{%static 'img/diu.png' %}" alt=""
@@ -33,7 +64,7 @@
 							Main
 						</li>
 						<li class="sidebar-item active">
-							<a href="{% url 'PageNotFound' %}" class="sidebar-link">
+							<a href="{% url 'index' %}" class="sidebar-link">
 								<i class="align-middle" data-feather="sliders"></i> <span
 									class="align-middle">Dashboard</span>
 								<!--------<span class="sidebar-badge badge badge-primary">6</span>----->
@@ -78,17 +109,17 @@
 							</a>
 						</li>
 
-						<li class="sidebar-item">
+						<!-- <li class="sidebar-item">
 							<a href="{% url 'PageNotFound' %}" class="sidebar-link">
 								<i class="align-middle" data-feather="book-open"></i> <span
 									class="align-middle">Report</span>
 							</a>
-						</li>
+						</li> -->
 
 						<li class="sidebar-item">
-							<a href="{% url 'test' %}" class="sidebar-link">
+							<a href="{% url 'question' %}" class="sidebar-link">
 								<i class="align-middle" data-feather="book-open"></i> <span
-									class="align-middle">Test</span></a>
+									class="align-middle">QnA</span></a>
 						</li>
 						{% if request.user.is_authenticated %}
 
@@ -102,27 +133,46 @@
 									Data</span>
 							</a>
 							<ul id="ui" class="sidebar-dropdown list-unstyled collapse show">
-								<!-- <li class="sidebar-item"><a class="sidebar-link" href="ui-alerts.html">Add Departments</a></li> -->
-								<!-- <li class="sidebar-item"><a class="sidebar-link" href="ui-buttons.html">Add Facultys</a></li> -->
-								<li class="sidebar-item"><a class="sidebar-link" href="ui-cards.html">Add
+
+								<li class="sidebar-item"><a class="sidebar-link" href="{% url 'create' %}">Add
+										Projects</a></li>
+								<li class="sidebar-item"><a class="sidebar-link" href="{% url 'createThesis' %}">Add
+										Thesis</a></li>
+								<li class="sidebar-item"><a class="sidebar-link" href="{% url 'createInternship' %}">Add
 										Internships</a></li>
-								<!-- <li class="sidebar-item"><a class="sidebar-link" href="ui-general.html">Add Project categorys</a></li> -->
-								<li class="sidebar-item"><a class="sidebar-link" href="{% url 'addProjectData' %}">Add
-										Projects</a>
-								</li>
-								<!-- <li class="sidebar-item"><a class="sidebar-link" href="ui-modals.html">Add Students</a></li> -->
-								<!-- <li class="sidebar-item active"><a class="sidebar-link" href="ui-notifications.html">Add Supervisors</a></li> -->
-								<!-- <li class="sidebar-item"><a class="sidebar-link" href="ui-tabs.html">Add Thesis categorys</a></li> -->
-								<li class="sidebar-item"><a class="sidebar-link" href="ui-typography.html">Add
-										Thesiss</a></li>
+
+								<li class="sidebar-item"><a class="sidebar-link"
+										href="{% url 'createProjectCategory' %}">Add Project
+										Categories</a></li>
+								<li class="sidebar-item"><a class="sidebar-link"
+										href="{% url 'createThesisCategory' %}">Add Thesis
+										Categories</a></li>
+								<li class="sidebar-item"><a class="sidebar-link" href="{% url 'createSupervisor' %}">Add
+										Supervisors</a></li>
+								<li class="sidebar-item"><a class="sidebar-link" href="{% url 'createQnA' %}"
+										style="margin-bottom: 10rem">Add
+										QnA</a></li>
+
 							</ul>
 						</li>
 
 						{% endif %}
-
-
-
+						{% if request.user.is_authenticated %}
+						<div class="sidebar-bottom d-lg-block">
+							<div class="media">
+								<img class="rounded-circle mr-3" src="{{user.adminprofile.image.url}}"
+									alt="{{username}}" width="40" height="40">
+								<div class="media-body">
+									<h5 class="mb-1 text-white">{{user.username}}</h5>
+									<div class="text-light">
+										<i class="fas fa-circle text-success"></i> Online
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endif %}
 				</div>
+
 			</nav>
 
 			<div class="main">
@@ -133,25 +183,46 @@
 
 
 					<!-- Search -->
-					<form class="form-inline d-none d-sm-inline-block" action="" method="GET">
+					<!-- <form class="form-inline d-none d-sm-inline-block" action="" method="GET">
 
 						<input class="form-control mr-sm-2" type="text" name="s" placeholder="Search projects"
 							aria-label="Search">
-					</form>
+					</form> -->
+
+
 					<!-- End Search       -->
-
 					{% if request.user.is_authenticated %}
+					<!-- {% block userProfile %}{% endblock %} -->
+					<div class="navbar-collapse collapse">
+						<ul class="navbar-nav ml-auto">
 
-					<div class="navbar-nav ml-auto">
-						<span class="d-none d-sm-inline-block">
-							<a href="{% url 'logout' %}" <button class="btn btn-primary"><i data-feather="log-out"></i>
-								Log Out</button> </a>
-						</span>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown">
+									<!-- <span class="d-inline-block d-md-none">
+										<i class="align-middle" data-feather="settings"></i>
+									</span> -->
+									<span class="d-sm-inline-block">
+										<img src="{{user.adminprofile.image.url}}"
+											class="avatar img-fluid rounded-circle mr-3" alt="{{username}}" />
+										<span class="text-dark mr-1">{{user.username}}</span>
+									</span>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="userDropdown">
+									<a class="dropdown-item" href="{% url 'PageNotFound' %}"><i
+											class="align-middle mr-1" data-feather="user"></i> Profile</a>
+									<!-- <a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="pie-chart"></i> Analytics</a> -->
+									<div class="dropdown-divider"></div>
+									<!-- <a class="dropdown-item" href="#">Settings & Privacy</a> -->
+									<a class="dropdown-item" href="{% url 'PageNotFound' %}">Help</a>
+									<a class="dropdown-item" href="{% url 'logout' %}">Sign out</a>
+								</div>
+							</li>
+						</ul>
 					</div>
 					{% else %}
 
 					<div class="navbar-nav ml-auto">
-						<span class="d-none d-sm-inline-block">
+						<span class="d-sm-inline-block">
 							<a href="{% url 'login' %}" <button class="btn btn-primary"><i data-feather="log-in"></i>
 								Log In</button> </a>
 						</span>
@@ -162,9 +233,43 @@
 
 
 
-					{% block profile %}{% endblock %}
+
 				</nav>
 				<!---------------content-------------------------->
+				{% url 'index' as my_create %}
+				<!-- {% url 'update' as my_update %} -->
+				{% if request.path == my_create %}
+				<section id="index_bg" class="sec1">
+					<div class="skewed1"></div>
+					<div class="content">
+						<div class="row p-5">
+
+							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+								<div class="img my-2" style="display: flex;
+								flex-direction: row;
+								flex-wrap: wrap;
+								justify-content: center;
+								align-items: center;">
+									<img class="" src="{%static 'img/diu.png' %}" width="40%" height="40%"
+										alt="Diu Logo"">
+								</div>
+								<h4 class=" text-white text-center">Diu Project Organizer App</h4>
+								</div>
+
+								<div class="col-md-8 col-xl-8 col-lg-8 col-sm-12 col-xs-12">
+									<div class="d-flex h-100 mt-2">
+										<h1 class="text-white text-center my-auto" style="font-size: 1.5rem">Project
+											Organizer makes it easier to
+											find
+											your
+											topic.</h1>
+									</div>
+								</div>
+							</div>
+						</div>
+				</section>
+				{% endif %}
 				<main class="content">
 					<div class="container-fluid p-0">
 						{% block content%}
@@ -176,25 +281,11 @@
 				<footer class="footer">
 					<div class="container-fluid">
 						<div class="row text-muted">
-							<div class="col-6 text-left">
-								<ul class="list-inline">
-									<li class="list-inline-item">
-										<a class="text-muted" href="#">Support</a>
-									</li>
-									<li class="list-inline-item">
-										<a class="text-muted" href="#">Help Center</a>
-									</li>
-									<li class="list-inline-item">
-										<a class="text-muted" href="#">Privacy</a>
-									</li>
-									<li class="list-inline-item">
-										<a class="text-muted" href="#">Terms of Service</a>
-									</li>
-								</ul>
-							</div>
-							<div class="col-6 text-right">
+							<div class="col-12 text-right">
 								<p class="mb-0">
-									&copy; 2019 - <a href="index.html" class="text-muted">Daffodil International
+									&copy; 2019 - <a href="http://daffodilvarsity.edu.bd/" target="blank"
+										class="text-muted">Daffodil
+										International
 										University. All Rights Reserved.</a>
 								</p>
 							</div>
@@ -212,7 +303,10 @@
 	<script src="{% static 'js/maps.js'%}"></script>
 	<script src="{% static 'js/tables.js'%}"></script>
 	<script src="https://www.appelsiini.net/projects/chained/jquery.chained.js?v=0.9.10"></script>
-	{% block script%} {% endblock %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+	{% block script%}
+	{% endblock %}
 </body>
 
 </html>

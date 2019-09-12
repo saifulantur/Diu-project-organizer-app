@@ -23,7 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ktvq*&6v3zg7$8o^9_$6_bhf@$&e8e9ew6_i4oo__r4zc2w%$='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
+# JQUERY_URL = False
+# USE_DJANGO_JQUERY = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -37,8 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'projectapp'
+    'projectapp',
+    'crispy_forms',
+    'smart_selects'
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

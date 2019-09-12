@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+{% block stylesheet %}
+{% endblock %}
+{% block profile %}{% endblock %}
+{% load crispy_forms_tags %}
+{% block content%}
+<div class="clearfix">
+    <button id="btnAddNewSupervisor" class="btn btn-secondary float-right">View Supervisor List</button>
+    <h1 class="h3 mb-3">Supervisor Information</h1>
+</div>
+<!-------------------------------------------------->
+<div class="row">
+    <div id="create-new-supervisorform" class="col-12">
+        <!--  col-md-6 -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Add Supervisor Form</h5>
+                <h6 class="card-subtitle text-muted">This table is for all Supervisor information</h6>
+            </div>
+            <div class="card-body">
+                <!-- {{ form.media.js }} -->
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <!-- When Edit is not working add this -->
+                    {{ form.media.js }}
+
+                    <!-- {{ form|crispy }} -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{form.name|as_crispy_field}}
+                        </div>
+                        <div class="col-md-6">
+                            {{form.initial|as_crispy_field}}
+                        </div>
+                        <div class="col-md-6">
+                            {{form.email|as_crispy_field}}
+                        </div>
+                        <div class="col-md-6">
+                            {{form.image|as_crispy_field}}
+                        </div>
+                        <div class="col-md-12">
+                            {{form.details|as_crispy_field}}
+                        </div>
+
+                        <!-- Start combobox data -->
+                        <div class="form-group col-md-6">
+                            <div class="form-group purple-border">
+                                <label for="faculty">Faculty :<sup>*</sup></label>
+                                <select class="form-control select2" data-toggle="select2" id="facultyCombobox"
+                                    name="facultyCombobox">
+                                    <option value="{{supervisorData.faculty_id}}" selected="selected">
+                                        {{supervisorData.faculty}}</option>
+                                    <optgroup label="Select Faculties">
+
+                                        {% for item in f_data %}
+                                        <option value="{{item.id}}">{{item.faculty_name}}
+                                        </option>
+                                        {% endfor %}
+
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <div class="form-group purple-border">
+                                <label for="department">Department :<sup>*</sup></label>
+                                <select class="form-control select2" data-toggle="select2" id="departmentCombobox"
+                                    name="departmentCombobox">
+                                    <option value="{{supervisorData.department_id}}" selected="selected">
+                                        {{supervisorData.department}}</option>
+                                    <optgroup label="Select Department">
+                                        {% for j in d_data %}
+                                        <option value="{{j.id}}" class="{{j.facultyName_id}}">
+                                            {{j.department_name}}
+                                        </option>
+                                        {% endfor %}
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- End  combobox data -->
+
+                    </div>
+                    <!--- End Row --->
+
+
+
+                    {% url 'createSupervisor' as my_create %}
+                    <!-- {% url 'update' as my_update %} -->
+                    {% if request.path == my_create %}
+                    <button id="saveButton" type="submit" class="btn btn-success">Save</button>
+                    <button class="btn btn-warning" type="reset" value="reset">Reset</button>
+
+                    {% else %}
+                    <button id="updateButton" type="submit" class="btn btn-warning">Update</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Table Data Display -->
+{% url 'createSupervisor' as my_create %}
+<!-- {% url 'update' as my_update %} -->
+{% if request.path == my_create %}
+<div class="row" id="projectTableData">
+    <div class="col-xl-12 col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Existing Supervisor Information</h5>
+                <h5 class="text-muted">you can manipulate table data</h5>
+            </div>
+            <div class="card-body">
+                <table id="datatables-buttons" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="width: 23%">Name</th>
+                            <th>Initial</th>
+                            <th>Email</th>
+                            <th>Faculty Name</th>
+                            <th>Department Name</th>
+                            <th>Details</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for i in supervisor_data_for_table %}
+                        <tr>
+                            <td>
+                                <img src="{{ i.image.url }}" width="48" height="48" class="rounded-circle mr-2"
+                                    alt="Avatar"> {{ i.name }}
+                            </td>
+                            <td>{{i.initial}}</td>
+                            <td>{{i.email}}</td>
+                            <td>{{i.faculty}}</td>
+                            <td>{{i.department}}</td>
+                            <td class="table-action">
+                                <a href="{{i.details}} " target="_blank"><i style="margin-left:10px"
+                                        class="align-middle" data-feather="external-link"></i></a>
+                            </td>
+
+                            <td class="table-action">
+
+                                <a id="editButton" href="{% url 'updateSupervisor' id=i.id %}"><i
+                                        class="align-middle btn2" data-feather="edit-2"></i></a>
+                                <a href="{% url 'deleteSupervisor' id=i.id %}" id="deleteButton"><i class="
+                                    align-middle" data-feather="trash"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
+{% block script%}
+<script>
+    $(document).ready(function () {
+
+        //Combobox data mapping
+        $("#departmentCombobox").chained("#facultyCombobox");
+        // $("#supervisorCombobox").chained("#departmentCombobox");
+        // $("#projectCategoryCombobox").chained("#departmentCombobox");
+
+        //Button 
+        $("#deleteButton").click(function () {
+            return confirm('Are you sure you want to delete this item?')
+        });
+
+        //Edit Button 
+        $("#btnAddNewSupervisor").click(function () {
+
+            $("#create-new-supervisorform").toggle(500);
+            $(this).text(function (i, v) {
+                return v === 'View Supervisor List' ? 'Add Supervisor' : 'View Supervisor List'
+            })
+
+        });
+
+    });
+
+    //For combobox select2
+    document.addEventListener("DOMContentLoaded", function (event) {
+        // Select2
+        $('.select2').each(function () {
+            $(this)
+                .wrap('<div class="position-relative"></div>')
+                .select2({
+                    placeholder: 'Select value',
+                    dropdownParent: $(this).parent()
+                });
+        })
+
+        // Datatables basic
+        $('#datatables-basic').DataTable({
+            // responsive: true
+            responsive: false,
+            "scrollX": true
+        });
+        // Datatables with Buttons
+        var datatablesButtons = $('#datatables-buttons').DataTable({
+            lengthChange: !1,
+            buttons: ["copy", "print"],
+            // responsive: true
+            responsive: false,
+            "scrollX": true
+        });
+        datatablesButtons.buttons().container().appendTo("#datatables-buttons_wrapper .col-md-6:eq(0)")
+
+    });
+</script>
+{% endblock %}

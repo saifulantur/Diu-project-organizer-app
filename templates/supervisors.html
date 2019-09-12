@@ -3,63 +3,292 @@
 {% block title %}{% endblock %}
 {% block stylesheet %}{% endblock %}
 {% block profile %}{% endblock %}
-{% block content%} 
+
+{% block script%}
+<script>
+    $(document).ready(function () {
+        var endpoint = '/supervisorGraphData/'
+        var defaultData = []
+        var defaultLabels = []
+
+        var defaultThesisData = []
+        var defaultThesisLabels = []
+
+        var defaultInternshipLabels = []
+        var defaultInternshipData = []
+        // console.log(endpoint)
+        // console.log("/hello")
+
+        $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function (data) {
+                defaultLabels = data.labels
+                defaultData = data.defaultData
+
+                defaultThesisData = data.thesisListData
+                defaultThesisLabels = data.labelsThesis
+
+                defaultInternshipLabels = data.labelsInternship
+                defaultInternshipData = data.internshipListData
+
+                setChart()
+                thesisChart()
+                internshipChart()
+                // console.log(data)
+                // var ctx = document.getElementById('myChart').getContext('2d');
+                // var myChart = new Chart(ctx, {
+                //     type: 'bar',
+                //     data: {
+                //         labels: defaultLabels,
+                //         datasets: [{
+                //             label: '# of Votes',
+                //             data: defaultData,
+                //         }]
+                //     }
+                // })
+
+                //end
+            },
+            error: function (error_data) {
+                console.log("error")
+                console.log(error_data)
+            }
+        })
+
+        function setChart() {
+            var ctx = document.getElementById('SupervisorProjectsChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: defaultLabels,
+                    datasets: [{
+                        label: 'Projects',
+                        data: defaultData,
+
+
+
+                        backgroundColor: [
+
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                        ],
+                        borderColor: [
+
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+        } //end of function
+
+        //Start THesis Chart
+        function thesisChart() {
+            var ctx = document.getElementById('supervisorThesisChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: defaultThesisLabels,
+                    datasets: [{
+                        label: 'Thesis',
+                        data: defaultThesisData,
+
+
+
+                        backgroundColor: [
+
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                        ],
+                        borderColor: [
+
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+        } //end of function
+        //End Thesis Chart
+
+        function internshipChart() {
+
+            var ctx = document.getElementById('supervisorInternshipChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: defaultInternshipLabels,
+                    datasets: [{
+                        label: 'Internship',
+                        data: defaultInternshipData,
+                        backgroundColor: [
+
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+        } //end of internship chart
+    }); //end of document ready function
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        // Datatables basic
+        $('#datatables-basic').DataTable({
+            // responsive: true
+            responsive: false,
+            "scrollX": true
+        });
+        // Datatables with Buttons
+        var datatablesButtons = $('#datatables-buttons').DataTable({
+            lengthChange: !1,
+            buttons: ["copy", "print", ],
+            // responsive: true
+            responsive: false,
+            "scrollX": true
+        });
+        datatablesButtons.buttons().container().appendTo("#datatables-buttons_wrapper .col-md-6:eq(0)")
+    });
+</script>
+{% endblock %}
+{% block content%}
 
 <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">Supervisors List</h5>
-                    <h6 class="card-subtitle text-muted">Highly flexible tool that many advanced features to any HTML table.</h6>
-                </div>
-                <div class="card-body">
-                    <table id="datatables-basic" class="table table-striped" style="width:100%">
-                        <thead>
-                                <th>Name</th>
-                                <th>Initial</th>
-                                <th>Email</th>
-                                <th>Department Name</th>
-                                <th>Details</th>
-                        </thead>
-                        <tbody>
-                            {% for i in s_data %}
-                                <tr>
-                                    <td>
-                                        <img src="{{ i.image.url }}" width="48" height="48" class="rounded-circle mr-2" alt="Avatar"> {{ i.name }}
-                                    </td>
-                                    <td>{{i.initial}}</td>
-                                    <td>{{i.email}}</td>
-                                    <td>{{i.department}}</td>
-                                    <td class="table-action">
-                                            <a href="{{i.details}} " target="_blank"><i style="margin-left:10px" class="align-middle" data-feather="external-link"></i></a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+    <!-- Graph Data  -->
+    <div class="col-xs-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card flex-fill w-100">
+            <div class="card-header">
+                <h5 class="card-title">Projects</h5>
+                <h6 class="card-subtitle text-muted">A line chart is a way of plotting data points on a line.</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart">
+                    <canvas id="SupervisorProjectsChart"></canvas>
                 </div>
             </div>
         </div>
 
+    </div>
+    <!-- Graph Data  -->
+    <div class="col-xs-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card flex-fill w-100">
+            <div class="card-header">
+                <h5 class="card-title">Thesis</h5>
+                <h6 class="card-subtitle text-muted">A line chart is a way of plotting data points on a line.</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart">
+                    <canvas id="supervisorThesisChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Graph Data  -->
+    <div class="col-xs-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card flex-fill w-100">
+            <div class="card-header">
+                <h5 class="card-title">Internship</h5>
+                <h6 class="card-subtitle text-muted">A line chart is a way of plotting data points on a line.</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart">
+                    <canvas id="supervisorInternshipChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Start Table  -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Supervisors List</h5>
+                <!-- <h6 class="card-subtitle text-muted">Highly flexible tool that many advanced features to any HTML table.</h6> -->
+            </div>
+            <div class="card-body">
+                <table id="datatables-basic" class="table table-striped" style="width:100%">
+                    <thead>
+                        <th style="width: 23%">Name</th>
+                        <th>Initial</th>
+                        <th>Email</th>
+                        <th>Faculty</th>
+                        <th>Department Name</th>
+                        <th>Details</th>
+                    </thead>
+                    <tbody>
+                        {% for i in s_data %}
+                        <tr>
+                            <td>
+                                <img src="{{ i.image.url }}" width="48" height="48" class="rounded-circle mr-2"
+                                    alt="Avatar"> {{ i.name }}
+                            </td>
+                            <td>{{i.initial}}</td>
+                            <td>{{i.email}}</td>
+                            <td>{{i.faculty}}</td>
+                            <td>{{i.department}}</td>
+                            <td class="table-action">
+                                <a href="{{i.details}} " target="_blank"><i style="margin-left:10px"
+                                        class="align-middle" data-feather="external-link"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- End of Table s -->
+</div>
+
 
 {% endblock %}
-
-{% block script%} 
-<script>
-    document.addEventListener("DOMContentLoaded", function(event) {
-    // Datatables basic
-    $('#datatables-basic').DataTable({
-        responsive: true
-    });
-    // Datatables with Buttons
-    var datatablesButtons = $('#datatables-buttons').DataTable({
-        lengthChange: !1,
-        buttons: ["copy", "print",],
-        responsive: true
-    });
-    datatablesButtons.buttons().container().appendTo("#datatables-buttons_wrapper .col-md-6:eq(0)")
-});
-</script>
-
-{% endblock %}
-

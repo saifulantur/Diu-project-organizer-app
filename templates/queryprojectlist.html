@@ -3,61 +3,67 @@
 {% block title %}{% endblock %}
 {% block stylesheet %}{% endblock %}
 {% block profile %}{% endblock %}
-{% block content%} 
-        
-        <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Project List</h5>
-                    </div>
-                    <div class="card-body">
-                        <table id="datatables-buttons" class="table table-striped" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th style="width:12%">Project No</th>
-                                    <th>Project Title</th>
-                                    <th>Supervisor</th>
-                                    <th>Department</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            
-                            <tbody>
-                                {% for i in p_data %}
-                                <tr>
-                                    <td>{{i.project_no}}</td>
-                                    <td>{{i.project_title}}</td>
-                                    <td>{{i.supervisor}}</td>
-                                    <td>{{i.department}}</td>
-                                    <td class="table-action">
-                                            <a href=""><i class="align-right" data-feather="eye"></i></a>
-                                     </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                            
-                        </table>
-                    </div>
-                </div>
-            </div>
-    
+{% block content%}
+
+<div class="col-xl-12 col-md-12 col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title"><span class=" mr-2"
+                    style="font-size: 20px; font-weight: bold; color: #8B62D1">{{projectCategoryName}}</span>
+                Category Projects List</h4>
+            <h6 class="card-subtitle text-muted">Total project on this category
+                <span class="ml-2" style="font-size: 20px; font-weight: bold; color: #8B62D1">{{count}}</span>
+            </h6>
+
+
+        </div>
+        <div class="card-body">
+            <table id="datatables-buttons" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Project No</th>
+                        <th>Project Title</th>
+                        <th>Category</th>
+                        <th>Supervisor</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for i in p_data %}
+                    <tr>
+                        <td>{{i.project_no}}</td>
+                        <td>{{i.project_title}}</td>
+                        <td>{{i.project_category}}</td>
+                        <td>{{i.supervisor}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}
-{% block script%} 
+{% block script%}
 <script>
-    document.addEventListener("DOMContentLoaded", function(event) {
-    // Datatables basic
-    $('#datatables-basic').DataTable({
-        responsive: true
+    document.addEventListener("DOMContentLoaded", function (event) {
+        // Datatables basic
+        $('#datatables-basic').DataTable({
+            responsive: false,
+            "scrollX": true
+        });
+        // Datatables with Buttons
+        var datatablesButtons = $('#datatables-buttons').DataTable({
+            lengthChange: !1,
+            buttons: ["copy", "print"],
+            // responsive: true
+            responsive: false,
+            "scrollX": true
+        });
+        datatablesButtons.buttons().container().appendTo("#datatables-buttons_wrapper .col-md-6:eq(0)")
     });
-    // Datatables with Buttons
-    var datatablesButtons = $('#datatables-buttons').DataTable({
-        lengthChange: !1,
-        buttons: ["copy", "print"],
-        responsive: true
-    });
-    datatablesButtons.buttons().container().appendTo("#datatables-buttons_wrapper .col-md-6:eq(0)")
-});
 </script>
 
 {% endblock %}

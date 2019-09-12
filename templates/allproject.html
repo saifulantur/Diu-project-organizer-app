@@ -10,6 +10,9 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">All Projects</h5>
+                <h6 class="card-subtitle text-muted">Total Project
+                    <span class="ml-2" style="font-size: 20px; font-weight: bold; color: #8B62D1">{{count}}</span>
+                </h6>
             </div>
             <div class="card-body">
                 <table id="datatables-basic" class="table table-striped" style="width:100%">
@@ -17,8 +20,10 @@
                         <tr>
                             <th style="width:12%">Project No</th>
                             <th>Project Title</th>
-                            <th style="width:15%">Supervisor</th>
+                            <th style="width:15%">Faculty</th>
                             <th>Department</th>
+                            <th>Proejct Category</th>
+                            <th>Supervisor</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,17 +31,21 @@
                         <tr>
                             <td>{{i.project_no}}</td>
                             <td>{{i.project_title}}</td>
-                            <td>{{i.supervisor}}</td>
+                            <td>{{i.faculty}}</td>
                             <td>{{i.department}}</td>
+                            <td>{{i.project_category}}</td>
+                            <td>{{i.supervisor}}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>Project No</th>
+                            <th style="width:12%">Project No</th>
                             <th>Project Title</th>
-                            <th>Supervisor</th>
+                            <th style="width:15%">Faculty</th>
                             <th>Department</th>
+                            <th>Proejct Category</th>
+                            <th>Supervisor</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -52,13 +61,16 @@
         document.addEventListener("DOMContentLoaded", function (event) {
             // Datatables basic
             $('#datatables-basic').DataTable({
-                responsive: true
+                responsive: false,
+                "scrollX": true
             });
             // Datatables with Buttons
             var datatablesButtons = $('#datatables-buttons').DataTable({
                 lengthChange: !1,
-                buttons: ["copy", "print",],
-                responsive: true
+                buttons: ["copy", "print", ],
+                // responsive: true
+                responsive: false,
+                "scrollX": true
             });
             datatablesButtons.buttons().container().appendTo("#datatables-buttons_wrapper .col-md-6:eq(0)")
         });

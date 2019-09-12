@@ -11,10 +11,52 @@
 	<title>{% block title %}{% endblock %}</title>
 	{% load static %}
 	<link href="{% static 'css/app.css' %}" rel="stylesheet">
+	<style>
+		#main-section {
+			background: linear-gradient(rgba(0, 0, 0, 0.8),
+				rgba(0, 0, 0, 0.6)),
+			url("{% static 'img/under_construction.jpg' %}") no-repeat;
+			background-size: cover;
+			background-attachment: fixed;
+			background-position: bottom center;
+			/*    background-attachment: fixed;*/
+		}
+
+		#settingsIcon {
+			position: absolute;
+			top: 40%;
+			left: 55%;
+			width: 120px;
+			height: 120px;
+			margin: -60px 0 0 -60px;
+			-webkit-animation: spin 4s linear infinite;
+			-moz-animation: spin 4s linear infinite;
+			animation: spin 4s linear infinite;
+		}
+
+		@-moz-keyframes spin {
+			100% {
+				-moz-transform: rotate(360deg);
+			}
+		}
+
+		@-webkit-keyframes spin {
+			100% {
+				-webkit-transform: rotate(360deg);
+			}
+		}
+
+		@keyframes spin {
+			100% {
+				-webkit-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+	</style>
 
 </head>
 
-<body>
+<body id="main-section">
 	<main class="main h-100 w-100">
 		<div class="container h-100">
 			<div class="row h-100">
@@ -22,10 +64,15 @@
 					<div class="d-table-cell align-middle">
 
 						<div class="text-center">
-							<h1 class="display-1 font-weight-bold">404</h1>
-							<p class="h1">Page not found.</p>
-							<p class="h2 font-weight-normal mt-3 mb-4">The page you are looking for might have been removed.</p>
-							<a href="{% url 'index' %}" class="btn btn-primary btn-lg">Return to website</a>
+							<h1 class="text-white"><i class="align-middle" id="settingsIcon" style=" width: 54px;
+								height: 50px;" data-feather="settings"></i></h1>
+
+							<p class="h4 text-warning mt-4">
+								Temporarily closed for construction
+							</p>
+							<p class="h2 font-weight-normal mt-2 mb-4 text-white">Sorry, we're doing some work on the
+								site</p>
+							<a href="{% url 'index' %}" class="btn btn-secondary btn-lg">Return to website</a>
 						</div>
 
 					</div>

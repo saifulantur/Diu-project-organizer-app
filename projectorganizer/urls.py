@@ -9,13 +9,15 @@ from django.conf.urls import handler404
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("projectapp.urls")),
+    path('chaining/', include('smart_selects.urls')),
+    
     
 ]
 handler404 = 'projectapp.views.error_404_view'
 
 #Customizing Admin site
 admin.site.site_header = 'Project Organizer'
-admin.site.index_title = 'Hi! Welcome to project'
+admin.site.index_title = 'Hi! Welcome to project organizer'
 admin.site.site_title = 'Control Panel'
 
 if settings.DEBUG:
