@@ -2,7 +2,7 @@
 
 <h3> It’s a web app which will organize all the project of Daffodil International University in different category which is previously done by alumni. </h3>
 
-<h4 target="_blank"> Project Demonstration Link: https://www.youtube.com/watch?v=k1TE7IDzhjc&feature=emb_logo </h4>
+<h4 target="_blank"> Project Demonstration Link: https://sites.google.com/view/diu-project-organizer/home?authuser=0 </h4>
 
 ![Use_case](https://user-images.githubusercontent.com/40080527/71822706-c4fca580-30bf-11ea-9b13-41e83cf634a3.png)
 Fig: Use Case Diagram
